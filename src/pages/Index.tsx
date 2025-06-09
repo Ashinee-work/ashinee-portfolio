@@ -3,6 +3,7 @@ import { ChevronDown, Download, Mail, Github, Linkedin, Sun, Moon, ExternalLink,
 
 const Index = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const [result, setResult] = useState("");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -25,6 +26,25 @@ const Index = () => {
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setResult("Sending....");
+    const formData = new FormData(event.target as HTMLFormElement);
+    formData.append("access_key", "283fdc6d-b984-4df6-84b7-af779fbaf4c4");
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+    const data = await response.json();
+    if (data.success) {
+      setResult("Form Submitted Successfully");
+      (event.target as HTMLFormElement).reset();
+    } else {
+      console.log("Error", data);
+      setResult(data.message);
+    }
   };
 
   return (
@@ -62,7 +82,7 @@ const Index = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="mb-8">
             <img
-              src="https://images.unsplash.com/photo-1494790108755-2616b612b515?w=200&h=200&fit=crop&crop=face"
+              src="https://raw.githubusercontent.com/Ashinee-work/ashinee-portfolio/main/src/assets/ash_formal.jpg"
               alt="Ashinee Kesanam"
               className="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-white dark:border-gray-700 shadow-lg"
             />
@@ -74,17 +94,17 @@ const Index = () => {
             AI & Software Engineering Enthusiast
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-            BTech in Artificial Intelligence from NITK (CGPA: 8.48), with expertise in AI, ML, NLP, and software development. 
-            Founder of HSpectrum and HSuite, with internships at Uber India and research experience at NUS.
+            BTech in Artificial Intelligence from NITK, with expertise in AI, ML, NLP, and software development. 
+            Founder of HSpectrum, with internships at Uber India and research experience at NUS.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center gap-2">
+            {/* <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center gap-2">
               <Download size={20} />
               Download Resume
-            </button>
+            </button> */}
             <button
               onClick={() => scrollToSection('contact')}
-              className="border-2 border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center gap-2"
             >
               Get In Touch
             </button>
@@ -109,7 +129,7 @@ const Index = () => {
                 at NITK with a strong focus on healthcare applications and innovative technology solutions.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                As the founder of HSpectrum, a non-profit promoting AI in healthcare, and HSuite, a healthcare management platform, 
+                As the founder of HSpectrum, a non-profit promoting AI in healthcare. 
                 I am dedicated to leveraging technology to solve real-world problems and make a positive impact on society.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -124,7 +144,7 @@ const Index = () => {
                   degree: "BTech in Artificial Intelligence",
                   institution: "NITK",
                   period: "2021-2025",
-                  grade: "CGPA: 8.48"
+                  grade: "CGPA: 8.52"
                 },
                 {
                   degree: "Minor in Management",
@@ -182,20 +202,20 @@ const Index = () => {
                 skills: ["LLMs", "Computer Vision", "Video Processing"]
               },
               {
-                title: "Founder & CTO",
-                company: "HSuite",
-                period: "Dec 2023 - Mar 2024",
-                location: "Remote",
-                description: "Developed HIMS software for administrative/clinical tasks. Built community of 400 members.",
-                skills: ["Healthcare Management", "Full-Stack Development", "Community Building"]
-              },
-              {
                 title: "SWE Intern (Data Backend)",
                 company: "Uber India",
                 period: "May 2024 - Jul 2024",
                 location: "Bangalore",
                 description: "Built Tableau dashboards, automated failure alerts, migrated MySQL DB, designed dynamic data pipelines.",
                 skills: ["Java (SpringBoot)", "Python", "Tableau", "MySQL", "API Development"]
+              },
+              {
+                title: "ML Research Intern",
+                company: "GKN Aerospace",
+                period: "Dec 2023 - Jan 2024",
+                location: "Bangalore",
+                description: "Created dataset for aviation wire character recognition, used YOLOv8 (Precision: 0.878, Recall: 0.885).",
+                skills: ["Dataset Creation", "YOLOv8", "OCR", "Computer Vision"]
               },
               {
                 title: "UberSTAR Intern",
@@ -205,14 +225,6 @@ const Index = () => {
                 description: "Developed data quality reporting tool with visualizations, integrated Google Drive APIs.",
                 skills: ["SQL", "Data Visualization", "Google APIs", "IPyWidgets", "JSON"]
               },
-              {
-                title: "ML Research Intern",
-                company: "GKN Aerospace",
-                period: "Dec 2023 - Jan 2024",
-                location: "Bangalore",
-                description: "Created dataset for aviation wire character recognition, used YOLOv8 (Precision: 0.878, Recall: 0.885).",
-                skills: ["Dataset Creation", "YOLOv8", "OCR", "Computer Vision"]
-              }
             ].map((exp, index) => (
               <div key={index} className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
@@ -298,33 +310,58 @@ const Index = () => {
               {[
                 {
                   title: "MRI Annotator",
-                  description: "RESTful app for MRI annotation with 83% accuracy brain tumor segmentation.",
-                  skills: ["MySQL", "React", "Express", "Deep Learning", "Flask"]
+                  description: "RESTful app for MRI annotation, 83% accuracy brain tumor segmentation.",
+                  skills: ["MySQL", "React", "Express", "Node.js", "DL", "Flask"]
                 },
                 {
                   title: "Lumbar Degenerative Disease Detection",
                   description: "Used DenseNet, YOLO, Custom 3D CNN on RSNA 2024 dataset.",
-                  skills: ["Data Analytics", "Computer Vision", "NLP"]
+                  skills: ["Data Analytics", "CV", "NLP"]
                 },
                 {
                   title: "Human or AI Text Classification",
-                  description: "SEM EVAL 2024 submission with RoBERTa-based model achieving 86% accuracy.",
-                  skills: ["NLP", "Deep Learning", "RoBERTa"]
+                  description: "SEM EVAL 2024, RoBERTa-based, 86% accuracy.",
+                  skills: ["NLP", "DL"]
                 },
                 {
                   title: "Face Mask Recognition",
-                  description: "CNN implementation with PyTorch achieving 90.31% accuracy.",
-                  skills: ["Deep Learning", "PyTorch", "Data Parallelism"]
+                  description: "CNN with PyTorch, 90.31% accuracy.",
+                  skills: ["DL", "PyTorch", "Data Parallelism"]
+                },
+                {
+                  title: "Unsupervised Text Classification",
+                  description: "Multinomial Naive Bayes, 97% accuracy.",
+                  skills: ["ML", "Feature Extraction", "Sklearn"]
+                },
+                {
+                  title: "Citation Link Prediction",
+                  description: "XGBoost, Random Forest, 48.62% accuracy.",
+                  skills: ["ML", "NetworkX"]
                 },
                 {
                   title: "Happy Health - Prescription Translator",
-                  description: "Uses EasyOCR for prescription text extraction and displays medicine information.",
-                  skills: ["EasyOCR", "OpenCV", "Matplotlib", "Pandas"]
+                  description: "Used EasyOCR for prescription text, displays medicine images, nearby hospitals.",
+                  skills: ["EasyOCR", "OpenCV", "Matplotlib", "Pandas", "PIL"]
                 },
                 {
                   title: "Vehicle Traffic Violation Detection",
-                  description: "YOLOv3-based system with Hopcroft-Karp algorithm achieving 75% accuracy.",
-                  skills: ["OpenCV", "YOLOv3", "Object Detection"]
+                  description: "YOLOv3, Hopcroft-Karp, 75% accuracy.",
+                  skills: ["OpenCV", "YOLOv3", "Matplotlib"]
+                },
+                {
+                  title: "NLP Based Disaster Tweets",
+                  description: "Logistic regression, 80% accuracy, 74% F1 score.",
+                  skills: ["NLP", "Sklearn", "ML"]
+                },
+                {
+                  title: "Handwritten Digit Recognizer",
+                  description: "ANN with Tensorflow/Keras, 95% accuracy.",
+                  skills: ["Tensorflow", "Keras", "Pandas"]
+                },
+                {
+                  title: "Energy Efficiency Prediction",
+                  description: "Compared 6 models (XGBoost, Linear Regression, etc.), analyzed RMSE.",
+                  skills: ["Data Analysis", "Sklearn", "ML"]
                 }
               ].map((project, index) => (
                 <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -356,25 +393,30 @@ const Index = () => {
               {
                 title: "Focal-RoBERTa: Multi-head attention RoBERTa with focal loss for emotion classification",
                 description: "SEM Eval 2025, Rank 13/80",
+                status: "Under Review"
+              },
+              {
+                title: " LIGHT-ME: Lightweight Attention-Based Multimodal Emotion Detection",
+                description: "Submitted to MIND Conference 2024",
                 status: "Published"
               },
               {
-                title: "LIGHT-ME: Lightweight attention-based multimodal emotion detection",
-                description: "Submitted to MIND Conference 2024",
-                status: "Under Review"
-              },
-              {
-                title: "Leveraging LLMs for Zero-Shot Feature Selection",
+                title: " Leveraging Large Language Models for Zero Shot Feature Selection in Cardiometabolic Disease Prediction",
                 description: "Fine-tuned LLM for heart disease/diabetes prediction, submitted to MIND Conference 2024",
-                status: "Under Review"
+                status: "Published"
               },
               {
-                title: "End-to-End Pipeline for NL Query",
+                title: " Leveraging Physical and Semantic Features of text item for Difficulty and Response Time Prediction of USMLE Questions",
+                description: "Sig Edu Shared Task 2024, Bio-BERT embeddings, Ranks 19 and 12.",
+                status: "Published"
+              },
+              {
+                title: " End-to-End Pipeline for NL Query based Spacecraft Health Data Analytics",
                 description: "NLP-driven spacecraft health data analytics, ICITIIT 2024, IEEE",
                 status: "Published"
               },
               {
-                title: "Comprehensive Multi-Modal Analysis",
+                title: " Comprehensive Multi-Modal Analysis for Enhanced Road Safety and Traffic Law Enforcement",
                 description: "Vehicle violation detection, ICISPD 2023, Springer",
                 status: "Published"
               }
@@ -392,7 +434,7 @@ const Index = () => {
                       {pub.status}
                     </span>
                   </div>
-                  <ExternalLink size={20} className="text-gray-400 dark:text-gray-500 ml-4 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400" />
+                  {/* <ExternalLink size={20} className="text-gray-400 dark:text-gray-500 ml-4 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400" /> */}
                 </div>
               </div>
             ))}
@@ -407,15 +449,15 @@ const Index = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Languages</h3>
-              <div className="space-y-2">
-                <div>
-                  <p className="font-medium text-gray-700 dark:text-gray-300">Adept</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Python, C, C++, SQL</p>
-                </div>
-                <div>
-                  <p className="font-medium text-gray-700 dark:text-gray-300">Familiar</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Java, R</p>
-                </div>
+              <div className="flex flex-wrap justify-center gap-2">
+                {["Python", "C", "C++", "SQL", "Java", "R"].map((lang, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-sm"
+                  >
+                    {lang}
+                  </span>
+                ))}
               </div>
             </div>
             <div className="text-center">
@@ -521,7 +563,7 @@ const Index = () => {
               </div>
             </div>
             <div>
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={onSubmit}>
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Name
@@ -529,6 +571,8 @@ const Index = () => {
                   <input
                     type="text"
                     id="name"
+                    name="name"
+                    required
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Your Name"
                   />
@@ -540,6 +584,8 @@ const Index = () => {
                   <input
                     type="email"
                     id="email"
+                    name="email"
+                    required
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="your.email@example.com"
                   />
@@ -550,6 +596,8 @@ const Index = () => {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
+                    required
                     rows={5}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Your message here..."
@@ -561,6 +609,7 @@ const Index = () => {
                 >
                   Send Message
                 </button>
+                <span className="block text-center text-sm text-gray-600 dark:text-gray-300 mt-2">{result}</span>
               </form>
             </div>
           </div>
