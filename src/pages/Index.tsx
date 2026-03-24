@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Mail, Github, Linkedin, Sun, Moon, ExternalLink, Calendar, MapPin, Terminal, Code2, Trophy, BookOpen, Cpu, Zap, ChevronRight } from 'lucide-react';
+import { ChevronDown, Mail, Github, Linkedin, Sun, Moon, ExternalLink, Calendar, MapPin, Terminal, Code2, Trophy, BookOpen, ChevronRight } from 'lucide-react';
 
 // ─────────────── DATA ───────────────
 
